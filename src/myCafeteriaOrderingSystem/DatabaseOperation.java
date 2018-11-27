@@ -43,43 +43,43 @@ public interface DatabaseOperation {
 //	public ArrayList<String> getAddress(String custID);
 //	
 //	//
-	public Boolean orderMenuInsert(String orderID, String dishID, int number);
-	public Boolean orderMenuDelete(String orderID, String dishID);
+	public Boolean orderMenuInsert(String orderID, String dishID, int number)throws SQLException;
+	public Boolean orderMenuDelete(String orderID, String dishID)throws SQLException;
 	public ArrayList<OrderMenu> getOrderMenu(String orderID)throws SQLException;
-	public Boolean setNumber(String orderID, String dishID, int number);
+	public Boolean setNumber(String orderID, String dishID, int number)throws SQLException;
 	
 	
-	public Boolean payInsert(String orderID, Date payTime, String payment);
+	public Boolean payInsert(String orderID, Date payTime, String payment)throws SQLException;
 	public Date getPayTime(String orderID)throws SQLException;
 	public String getPayment(String orderID)throws SQLException;
 	public Pay getPay(String orderID)throws SQLException;
 	
 	
-	public Boolean mealStatusInsert(String orderID, String Status, int timeID, Date startTime, Date endTime);
-	public Boolean setStatus(String orderID, String Status);
-	public Boolean setTimeID(String orderID, int timeID);
-	public Boolean setStartTime(String orderID, Date startTime);
-	public Boolean setEndTime(String orderID, Date EndTime);
+	public Boolean mealStatusInsert(String orderID, String Status, int timeID, Date startTime, Date endTime)throws SQLException;
+	public Boolean setStatus(String orderID, String Status)throws SQLException;
+	public Boolean setTimeID(String orderID, int timeID)throws SQLException;
+	public Boolean setStartTime(String orderID, Date startTime)throws SQLException;
+	public Boolean setEndTime(String orderID, Date EndTime)throws SQLException;
 	public MealStatus getMealStatus(String orderID)throws SQLException;
 	
-	public Boolean deliveryInsert(String delID, String delName, String phoneNumber, int timeID);
-	public Boolean deliveryDelete(String delID);
+	public Boolean deliveryInsert(String delID, String delName, String phoneNumber, int timeID)throws SQLException;
+	public Boolean deliveryDelete(String delID)throws SQLException;
 	public Delivery getDelivery(String delID)throws SQLException;
 	public Delivery getDeliveryx(int timeID)throws SQLException;
-	public Boolean setPhoneNumber(String delID, String phoneNumber);
-	public Boolean setDelTimeID(String delID, int timeID);
+	public Boolean setPhoneNumber(String delID, String phoneNumber)throws SQLException;
+	public Boolean setDelTimeID(String delID, int timeID)throws SQLException;
 	
 	public MealTime getMealTime(int timeID)throws SQLException;
 	
-	public Boolean ordersInsert(String orderID, String custID, String deliveryID, double totalPrice, Date startTime, Boolean paid, String Remark);
+	public Boolean ordersInsert(String orderID, String custID, String deliveryID, double totalPrice, Date startTime, Boolean paid, String Remark)throws SQLException;
 	public String getDeliveryID(String orderID)throws SQLException;
 	public double getTotalPrice(String orderID)throws SQLException;
 	public Date  getStartTime(String orderID)throws SQLException;
 	public String getRemark(String orderID)throws SQLException;
 	public Boolean getPaid(String orderID)throws SQLException;
-	public Boolean setTotalPrice(String orderID, double totalPrice);
-	public Boolean setRemark(String orderID, String remark);
-	public Boolean setPaid(String orderID, Boolean paid);
+	public Boolean setTotalPrice(String orderID, double totalPrice)throws SQLException;
+	public Boolean setRemark(String orderID, String remark)throws SQLException;
+	public Boolean setPaid(String orderID, Boolean paid)throws SQLException;
 	public ArrayList<Orders> getAllOrders(String custID)throws SQLException;
 	
 

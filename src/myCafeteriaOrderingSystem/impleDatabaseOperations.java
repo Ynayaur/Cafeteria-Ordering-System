@@ -24,7 +24,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     
 
 	
-	public Boolean orderMenuInsert(String orderID, String dishID, int number) {
+	public Boolean orderMenuInsert(String orderID, String dishID, int number) throws SQLException{
     	String sql = "INSERT INTO OrderMenu(order_id, dish_id,  dish_number) values(?,?,?)";
     	PreparedStatement pstmt;
     	
@@ -42,15 +42,13 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	}
     	
     	catch(SQLException e){
-    		System.out.println(e.getMessage());
-    		
-    		return false;
+    		throw e;
     	}
     	System.out.println("Done");
     	return true;
 	}
 	
-	public Boolean orderMenuDelete(String orderID, String dishID) {
+	public Boolean orderMenuDelete(String orderID, String dishID) throws SQLException{
 		String sql = "delete from OrderMenu where order_id=? and dish_id=?";
 	    PreparedStatement pstmt;
 	    try {
@@ -65,9 +63,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     		conn.close();
 	    } 
 	    catch(SQLException e){
-    		System.out.println(e.getMessage());
-    		
-    		return false;
+    		throw e;
     	}
     	System.out.println("Done");
     	return true;
@@ -101,9 +97,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	}
     	
     	catch(SQLException e){
-    		System.out.println(e.getMessage());
-    		throw e;
-    		//return (ArrayList<OrderMenu>) reOrderList;
+    		throw e;	
     	}
     	
     	System.out.println("Done");
@@ -111,7 +105,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	}
 	
 	
-	public Boolean setNumber(String orderID, String dishID, int number) {	
+	public Boolean setNumber(String orderID, String dishID, int number) throws SQLException{	
 	    String sql = "update OrderMenu set dish_number =? where order_id=? and dish_id=?";
 	    PreparedStatement pstmt;
 	    
@@ -129,8 +123,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	    } 
 	    
 	    catch(SQLException e){
-    		System.out.println(e.getMessage());
-    		return false;
+    		throw e;
     	}
     	
     	System.out.println("Done");
@@ -138,7 +131,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	}
 	
 	
-	public Boolean payInsert(String orderID, Date payTime, String payment) {
+	public Boolean payInsert(String orderID, Date payTime, String payment) throws SQLException{
     	String sql = "INSERT INTO Pay(order_id, pay_time,  payment) values(?,?,?)";
     	Timestamp payTimeStamp = new Timestamp(payTime.getTime());
 
@@ -158,9 +151,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	}
     	
     	catch(SQLException e){
-    		System.out.println(e.getMessage());
-    		
-    		return false;
+    		throw e;
     	}
     	System.out.println("Done");
     	return true;
@@ -189,9 +180,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	}
     	
     	catch(SQLException e){
-    		System.out.println(e.getMessage());
     		throw e;
-    		//return payTime;
     	}
     	System.out.println("Done");
     	return payTime;
@@ -220,9 +209,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	}
     	
     	catch(SQLException e){
-    		System.out.println(e.getMessage());
     		throw e;
-    		//return payment;
     	}
     	System.out.println("Done");
     	return payment;
@@ -257,9 +244,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	}
     	
     	catch(SQLException e){
-    		System.out.println(e.getMessage());
     		throw e;
-    		//return pay;
     	}
     	
     	System.out.println("Done");
@@ -267,7 +252,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	}
 
 
-	public Boolean mealStatusInsert(String orderID, String Status, int timeID, Date startTime, Date endTime) {
+	public Boolean mealStatusInsert(String orderID, String Status, int timeID, Date startTime, Date endTime) throws SQLException{
 		
 
     	String sql = "INSERT INTO MealStatus(order_id, status, time_id, start_time, end_time) values(?,?,?,?,?)";
@@ -292,16 +277,15 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	}
     	
     	catch(SQLException e){
-    		System.out.println(e.getMessage());
-    		
-    		return false;
+    		throw e;
     	}
+    	
     	System.out.println("Done");
     	return true;
 		
 	}
 	
-	public Boolean setStatus(String orderID, String Status) {
+	public Boolean setStatus(String orderID, String Status) throws SQLException{
 	    String sql = "update MealStatus set status =? where order_id=?";
 	    PreparedStatement pstmt;
 	    
@@ -318,15 +302,14 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	    } 
 	    
 	    catch(SQLException e){
-    		System.out.println(e.getMessage());
-    		return false;
+	    	throw e;
     	}
     	
     	System.out.println("Done");
     	return true;
 	}
 	
-	public Boolean setTimeID(String orderID, int timeID) {
+	public Boolean setTimeID(String orderID, int timeID) throws SQLException {
 		 String sql = "update MealStatus set time_id =? where order_id=?";
 		    PreparedStatement pstmt;
 		    
@@ -343,8 +326,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 		    } 
 		    
 		    catch(SQLException e){
-	    		System.out.println(e.getMessage());
-	    		return false;
+		    	throw e;
 	    	}
 	    	
 	    	System.out.println("Done");
@@ -352,7 +334,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	}
 	
 	
-	public Boolean setStartTime(String orderID, Date startTime) {
+	public Boolean setStartTime(String orderID, Date startTime) throws SQLException {
 		String sql = "update MealStatus set start_time=? where order_id=?";
 		PreparedStatement pstmt;
 		Timestamp startTimeStamp = new Timestamp(startTime.getTime());
@@ -370,8 +352,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 		} 
 		
 		catch(SQLException e){
-			System.out.println(e.getMessage());
-			return false;
+			throw e;
 		}
 		
 		System.out.println("Done");
@@ -379,7 +360,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	}
 	
 	
-	public Boolean setEndTime(String orderID, Date EndTime) {
+	public Boolean setEndTime(String orderID, Date EndTime) throws SQLException{
 		String sql = "update MealStatus set end_time=? where order_id=?";
 		PreparedStatement pstmt;
 		Timestamp EndTimeStamp = new Timestamp(EndTime.getTime());
@@ -397,8 +378,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 		} 
 		
 		catch(SQLException e){
-			System.out.println(e.getMessage());
-			return false;
+			throw e;
 		}
 		
 		System.out.println("Done");
@@ -440,9 +420,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	}
     	
     	catch(SQLException e){
-    		System.out.println(e.getMessage());
     		throw e;
-    		//return reMealStatus;
     	}
     	
     	System.out.println("Done");
@@ -479,9 +457,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	}
     	
     	catch(SQLException e){
-    		System.out.println(e.getMessage());
     		throw e;
-    		//return reMealTime;
     	}
     	
     	System.out.println("Done");
@@ -490,7 +466,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	}
 	
 	
-	public Boolean deliveryInsert(String delID, String delName, String phoneNumber, int timeID) {
+	public Boolean deliveryInsert(String delID, String delName, String phoneNumber, int timeID) throws SQLException{
     	String sql = "INSERT INTO  Delivery(del_id, del_name, del_phonenumber, time_id) values(?,?,?,?)";
     	
     	PreparedStatement pstmt;
@@ -510,16 +486,14 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	}
     	
     	catch(SQLException e){
-    		System.out.println(e.getMessage());
-    		
-    		return false;
+    		throw e;
     	}
     	System.out.println("Done");
     	return true;
 	}
 	
 	
-	public Boolean deliveryDelete(String delID) {
+	public Boolean deliveryDelete(String delID) throws SQLException{
 	    String sql = "delete from Delivery where del_id=? ";
 	    PreparedStatement pstmt;
 	    try {
@@ -533,9 +507,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     		conn.close();
 	    } 
 	    catch(SQLException e){
-    		System.out.println(e.getMessage());
-    		
-    		return false;
+    		throw e;
     	}
     	System.out.println("Done");
     	return true;
@@ -574,9 +546,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	}
     	
     	catch(SQLException e){
-    		System.out.println(e.getMessage());
     		throw e;
-    		//return reDelivery;
     	}
     	
     	System.out.println("Done");
@@ -618,10 +588,8 @@ public class impleDatabaseOperations implements DatabaseOperation{
     		conn.close();
     	}
     	
-    	catch(SQLException e){
-    		System.out.println(e.getMessage());
+    	catch(SQLException e) {
     		throw e;
-    		//return reDelivery;
     	}
     	
     	System.out.println("Done");
@@ -630,7 +598,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	}
 	
 	
-	public Boolean setPhoneNumber(String delID, String phoneNumber) {
+	public Boolean setPhoneNumber(String delID, String phoneNumber) throws SQLException{
 		String sql = "update Delivery set del_phonenumber=? where del_id=?";
 		PreparedStatement pstmt;
 		
@@ -648,8 +616,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 		} 
 		
 		catch(SQLException e){
-			System.out.println(e.getMessage());
-			return false;
+			throw e;
 		}
 		
 		System.out.println("Done");
@@ -658,7 +625,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	
 	
 	
-	public Boolean setDelTimeID(String delID, int timeID) {
+	public Boolean setDelTimeID(String delID, int timeID) throws SQLException{
 		String sql = "update Delivery set time_id=? where del_id=?";
 		PreparedStatement pstmt;
 		
@@ -676,8 +643,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 		} 
 		
 		catch(SQLException e){
-			System.out.println(e.getMessage());
-			return false;
+			throw e;
 		}
 		
 		System.out.println("Done");
@@ -685,7 +651,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	}
 	
 	
-	public Boolean ordersInsert(String orderID, String custID, String deliveryID, double totalPrice, Date startTime, Boolean paid, String Remark) {
+	public Boolean ordersInsert(String orderID, String custID, String deliveryID, double totalPrice, Date startTime, Boolean paid, String Remark) throws SQLException{
 		String sql = "INSERT INTO Orders(order_id, cust_id, delivery_id, total_price, start_time, paid, remark) values(?,?,?,?,?,?,?)";
 		Timestamp startTimeStamp = new Timestamp(startTime.getTime());
 		
@@ -709,9 +675,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	}
     	
     	catch(SQLException e){
-    		System.out.println(e.getMessage());
-    		
-    		return false;
+    		throw e;
     	}
     	System.out.println("Done");
     	return true;
@@ -739,9 +703,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	}
     	
     	catch(SQLException e){
-    		System.out.println(e.getMessage());
     		throw e;
-    		//return deliveryID;
     	}
     	System.out.println("Done");
     	return deliveryID;
@@ -770,9 +732,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	}
     	
     	catch(SQLException e){
-    		System.out.println(e.getMessage());
     		throw e;
-    		//return totalPrice;
     	}
     	System.out.println("Done");
     	return totalPrice;
@@ -801,9 +761,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	}
     	
     	catch(SQLException e){
-    		System.out.println(e.getMessage());
     		throw e;
-    		//return startTime;
     	}
     	System.out.println("Done");
     	return startTime;
@@ -832,9 +790,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	}
     	
     	catch(SQLException e){
-    		System.out.println(e.getMessage());
     		throw e;
-    		//return remark;
     	}
     	System.out.println("Done");
     	return remark;
@@ -863,16 +819,14 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	}
     	
     	catch(SQLException e){
-    		System.out.println(e.getMessage());
     		throw e;
-    		//return paid;
     	}
     	System.out.println("Done");
     	return paid;
 		
 	}
 	
-	public Boolean setTotalPrice(String orderID, double totalPrice) {
+	public Boolean setTotalPrice(String orderID, double totalPrice) throws SQLException{
 		String sql = "update Orders set total_price =? where order_id=?";
 		PreparedStatement pstmt;
 		
@@ -890,15 +844,14 @@ public class impleDatabaseOperations implements DatabaseOperation{
 		} 
 		
 		catch(SQLException e){
-			System.out.println(e.getMessage());
-			return false;
+			throw e;
 		}
 		
 		System.out.println("Done");
 		return true;
 	}
 	
-	public Boolean setRemark(String orderID, String remark) {
+	public Boolean setRemark(String orderID, String remark) throws SQLException{
 		String sql = "update Orders set remark =? where order_id=?";
 		PreparedStatement pstmt;
 		
@@ -916,8 +869,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 		} 
 		
 		catch(SQLException e){
-			System.out.println(e.getMessage());
-			return false;
+			throw e;
 		}
 		
 		System.out.println("Done");
@@ -925,7 +877,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 		
 	}
 	
-	public Boolean setPaid(String orderID, Boolean paid) {
+	public Boolean setPaid(String orderID, Boolean paid) throws SQLException{
 		String sql = "update Orders set paid =? where order_id=?";
 		PreparedStatement pstmt;
 		
@@ -943,8 +895,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 		} 
 		
 		catch(SQLException e){
-			System.out.println(e.getMessage());
-			return false;
+			throw e;
 		}
 		
 		System.out.println("Done");
@@ -986,9 +937,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	}
     	
     	catch(SQLException e){
-    		System.out.println(e.getMessage());
     		throw e;
-    		//return (ArrayList<Orders>) reOrderList;
     	}
 
     	
