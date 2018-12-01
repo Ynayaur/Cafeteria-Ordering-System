@@ -7,21 +7,504 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
+//import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class impleDatabaseOperations implements DatabaseOperation{
     static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";  
-    static final String DB_URL = "jdbc:mysql://**.**.**.**:****/order_system?useSSL=false&autoReconnect=true&characterEncoding=UTF-8&zeroDateTimeBehavior=CONVERT_TO_NULL";
+    static final String DB_URL = "jdbc:mysql:///order_system?useSSL=false&autoReconnect=true&characterEncoding=UTF-8&zeroDateTimeBehavior=CONVERT_TO_NULL";
  
-    static final String USER = "***";
-    static final String PASS = "******";
+    static final String USER = "****";
+    static final String PASS = "***";
     
     static  Connection conn = null;
     static  Statement stmt = null;
     
+    
+	public Boolean customerRegister(int kind, String custID, String custName,Boolean registered, Boolean payroll, String custMail, String password, String phoneNumber) throws SQLException{
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		String sql =  "insert into  Customer values(?,?,?,?,?,?,?,?)";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setInt(1, kind);
+		pstmt.setString(2, custID);
+		pstmt.setString(3, custName);
+		pstmt.setBoolean(4, registered);
+		pstmt.setBoolean(5, payroll);
+		pstmt.setString(6, custMail);
+		pstmt.setString(7, password);
+		pstmt.setString(8, phoneNumber);
+		Integer executeUpdate = pstmt.executeUpdate();
+		if(executeUpdate>0) {
+			System.out.println("插入成功！");
+			return true;
+		}else {
+			System.out.println("插入失败！");
+			return false;
+		}
+	}
+	
+	//修改注册状态
+	public Boolean setRegistered(String custID, Boolean status) throws SQLException{
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		String sql = "update Customer set registered = ? where cust_id = ?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setBoolean(1, status);
+		pstmt.setString(2, custID);
+		Integer executeUpdate = pstmt.executeUpdate();
+		if(executeUpdate>0) {
+			System.out.println("修改成功！");
+			return true;
+		}else {
+			System.out.println("修改失败！");
+			return false;
+		}
+	}
+	
+	//修改工资支付状态
+	public Boolean setPayroll(String custID, Boolean status) throws SQLException{
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		String sql = "update Customer set cust_payroll = ? where cust_id = ?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setBoolean(1, status);
+		pstmt.setString(2, custID);
+		Integer executeUpdate = pstmt.executeUpdate();
+		if(executeUpdate>0) {
+			System.out.println("修改成功！");
+			return true;
+		}else {
+			System.out.println("修改失败！");
+			return false;
+		}
+	}
+
+//修改邮箱
+	public Boolean setMail(String custID, String mail) throws SQLException{
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		String sql = "update Customer set cust_mail = ? where cust_id = ?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, mail);
+		pstmt.setString(2, custID);
+		Integer executeUpdate = pstmt.executeUpdate();
+		if(executeUpdate>0) {
+			System.out.println("修改成功！");
+			return true;
+		}else {
+			System.out.println("修改失败！");
+			return false;
+		}
+	}
+	
+	public Boolean setPassword(String custID, String password) throws SQLException{
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		String sql = "update Customer set cust_password = ? where cust_id = ?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, password);
+		pstmt.setString(2, custID);
+		Integer executeUpdate = pstmt.executeUpdate();
+		if(executeUpdate>0) {
+			System.out.println("修改成功！");
+			return true;
+		}else {
+			System.out.println("修改失败！");
+			return false;
+		}
+	}
+	
+	public Boolean setPhonenumber(String custID, String phonenumber) throws SQLException{
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		String sql = "update Customer set cust_phonenumber = ? where cust_id = ?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, phonenumber);
+		pstmt.setString(2, custID);
+		Integer executeUpdate = pstmt.executeUpdate();
+		if(executeUpdate>0) {
+			System.out.println("修改成功！");
+			return true;
+		}else {
+			System.out.println("修改失败！");
+			return false;
+		}
+	}
+	public int getKind(String custID) throws SQLException{
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		ResultSet rs =null;
+		Integer kind = null;
+		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		String sql = "select cust_kind from Customer where cust_id = ?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, custID);
+		rs = pstmt.executeQuery();
+		while(rs.next())
+		{
+			kind = rs.getInt(1);
+		}
+		return kind;
+	}
+	public String getcustName(String custID) throws SQLException{
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		ResultSet rs =null;
+		String custName = null;
+		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		String sql = "select cust_name from Customer where cust_id = ?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, custID);
+		rs = pstmt.executeQuery();
+		while(rs.next())
+		{
+			custName = rs.getString(1);
+		}
+		return custName;
+	}
+	
+	public Boolean getRegistered(String custID) throws SQLException{
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		ResultSet rs =null;
+		Boolean registered = null;
+		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		String sql = "select registered  from Customer where cust_id = ?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, custID);
+		rs = pstmt.executeQuery();
+		while(rs.next())
+		{
+			registered = rs.getBoolean(1);
+		}
+		return registered ;
+	}
+	
+	public Boolean getPayroll(String custID) throws SQLException{
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		ResultSet rs =null;
+		Boolean payroll = null;
+		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		String sql = "select cust_payroll  from Customer where cust_id = ?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, custID);
+		rs = pstmt.executeQuery();
+		while(rs.next())
+		{
+			payroll = rs.getBoolean(1);
+		}
+		return payroll ;
+	}
+	
+	public String getMail(String custID) throws SQLException{
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		ResultSet rs =null;
+		String Mail = null;
+		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		String sql = "select cust_mail from Customer where cust_id = ?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, custID);
+		rs = pstmt.executeQuery();
+		while(rs.next())
+		{
+			Mail = rs.getString(1);
+		}
+		return Mail;
+	}
+	public String getPhonenumber(String custID) throws SQLException{
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		ResultSet rs =null;
+		String  Phonenumber = null;
+		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		String sql = "select cust_phonenumber from Customer where cust_id = ?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, custID);
+		rs = pstmt.executeQuery();
+		while(rs.next())
+		{
+			Phonenumber = rs.getString(1);
+		}
+		return Phonenumber;
+	}
+	
+	public String getPassword(String custID) throws SQLException{
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		ResultSet rs =null;
+		String  Password = null;
+		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		String sql = "select cust_password from Customer where cust_id = ?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, custID);
+		rs = pstmt.executeQuery();
+		while(rs.next())
+		{
+			Password = rs.getString(1);
+		}
+		return Password;
+	}
+	
+	public Boolean menuInsert(String dishID, String dishName, double dishPrice, double bargainPrice, Boolean isBargain) throws SQLException{
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		String sql =  "insert into  Menu values(?,?,?,?,?)";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, dishID);
+		pstmt.setString(2, dishName);
+		pstmt.setDouble(3, dishPrice);
+		pstmt.setDouble(4, bargainPrice);
+		pstmt.setBoolean(5, isBargain);
+		Integer executeUpdate = pstmt.executeUpdate();
+		if(executeUpdate>0) {
+			System.out.println("插入成功！");
+			return true;
+		}else {
+			System.out.println("插入失败！");
+			return false;
+		}
+	}
+	
+	public Boolean setName(String dishID, String dishName) throws SQLException{
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		String sql = "update Menu set dish_name = ? where dish_id = ?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, dishName);
+		pstmt.setString(2, dishID);
+		Integer executeUpdate = pstmt.executeUpdate();
+		if(executeUpdate>0) {
+			System.out.println("修改成功！");
+			return true;
+		}else {
+			System.out.println("修改失败！");
+			return false;
+		}
+	}
+	
+	public Boolean setPrice(String dishID, double dishPrice) throws SQLException{
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		String sql = "update Menu set dish_price = ? where dish_id = ?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setDouble(1, dishPrice);
+		pstmt.setString(2, dishID);
+		Integer executeUpdate = pstmt.executeUpdate();
+		if(executeUpdate>0) {
+			System.out.println("修改成功！");
+			return true;
+		}else {
+			System.out.println("修改失败！");
+			return false;
+		}
+	}
+	
+	public Boolean setBargainPrice(String dishID, double bargainPrice) throws SQLException{
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		String sql = "update Menu set  dish_bargain_price = ? where dish_id = ?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setDouble(1, bargainPrice);
+		pstmt.setString(2, dishID);
+		Integer executeUpdate = pstmt.executeUpdate();
+		if(executeUpdate>0) {
+			System.out.println("修改成功！");
+			return true;
+		}else {
+			System.out.println("修改失败！");
+			return false;
+		}
+	}
+	
+	public Boolean setIsBargain(String dishID, Boolean isBargain) throws SQLException{
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		String sql = "update Menu set  Isbargain = ? where dish_id = ?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setBoolean(1, isBargain);
+		pstmt.setString(2, dishID);
+		Integer executeUpdate = pstmt.executeUpdate();
+		if(executeUpdate>0) {
+			System.out.println("修改成功！");
+			return true;
+		}else {
+			System.out.println("修改失败！");
+			return false;
+		}
+	}
+	
+	public Boolean deleteDish(String dishID) throws SQLException{
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		String sql = "delete from Menu where dish_id = ?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, dishID);
+		Integer executeUpdate = pstmt.executeUpdate();
+		if(executeUpdate>0) {
+			System.out.println("删除成功！");
+			return true;
+		}else {
+			System.out.println("删除失败！");
+			return false;
+		}
+	}
+	
+	public double getPrice(String dishID) throws SQLException{
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		ResultSet rs =null;
+		double Price = 0;
+		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		String sql = "select dish_price from Menu where dish_id = ?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, dishID);
+		rs = pstmt.executeQuery();
+		while(rs.next())
+		{
+			Price= rs.getDouble(1);
+		}
+		return Price;
+	}
+	
+	public String getDishName(String dishID) throws SQLException{
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		ResultSet rs =null;
+		String DishName = null;
+		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		String sql = "select dish_name from Menu where dish_id = ?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, dishID);
+		rs = pstmt.executeQuery();
+		while(rs.next())
+		{
+			DishName = rs.getString(1);
+		}
+		return DishName;
+	}
+	public Boolean getIsBargain(String dishID) throws SQLException{
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		ResultSet rs =null;
+		Boolean IsBargain = false;
+		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		String sql = "select IsBargain from Menu where dish_id = ?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, dishID);
+		rs = pstmt.executeQuery();
+		while(rs.next())
+		{
+			IsBargain = rs.getBoolean(1);
+		}
+		return IsBargain;
+	}
+	
+	public double getBargainPrice(String dishID) throws SQLException{
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		ResultSet rs =null;
+		double BargainPrice = 0;
+		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		String sql = "select dish_bargain_price from Menu where dish_id = ?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, dishID);
+		rs = pstmt.executeQuery();
+		while(rs.next())
+		{
+			BargainPrice = rs.getDouble(1);
+		}
+		return BargainPrice;
+	}
+	
+	public ArrayList<Menu> getMenu() throws SQLException{
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		ResultSet rs =null;
+		ArrayList<Menu> Menu = new ArrayList<Menu>();
+		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		String sql = "select * from Menu";
+		pstmt = conn.prepareStatement(sql);
+		rs = pstmt.executeQuery();
+		while(rs.next())
+		{
+			Menu menu = new Menu();
+			menu.setDishID(rs.getString(1));
+			menu.setDishName(rs.getString(2));
+			menu.setPrice(rs.getDouble(3));
+			menu.setBargainPrice(rs.getDouble(4));
+			Menu.add(menu);
+		}
+		return Menu;
+	}
+	public Boolean addressInsert(String custID, String address) throws SQLException{
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		String sql =  "insert into CustomerAddress values(?,?)";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, custID);
+		pstmt.setString(2, address);
+		Integer executeUpdate = pstmt.executeUpdate();
+		if(executeUpdate>0) {
+			System.out.println("插入成功！");
+			return true;
+		}else {
+			System.out.println("插入失败！");
+			return false;
+		}
+	}
+	public Boolean addressDelete(String custID, String address) throws SQLException{
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		String sql = "delete from CustomerAddress where cust_id = ? and cust_address = ?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, custID);
+		pstmt.setString(2, address);
+		Integer executeUpdate = pstmt.executeUpdate();
+		if(executeUpdate>0) {
+			System.out.println("删除成功！");
+			return true;
+		}else {
+			System.out.println("删除失败！");
+			return false;
+		}
+	}
+	
+	public ArrayList<String> getAddress(String custID) throws SQLException{
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		ResultSet rs =null;
+		ArrayList<String> Address = new ArrayList<String>();
+		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		String sql = "select cust_address from CustomerAddress where cust_id = ?" ;
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, custID);
+		rs = pstmt.executeQuery();
+		while(rs.next())
+		{
+			String address = rs.getString(1);
+			Address.add(address);
+		}
+		return Address;
+	}
 
 	
 	public Boolean orderMenuInsert(String orderID, String dishID, int number) throws SQLException{
@@ -945,7 +1428,6 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	return (ArrayList<Orders>) reOrderList;
 		
 	}
-	
 
 
 	
