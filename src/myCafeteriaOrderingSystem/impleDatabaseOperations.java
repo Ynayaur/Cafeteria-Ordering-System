@@ -13,20 +13,33 @@ import java.util.Date;
 import java.util.List;
 
 public class impleDatabaseOperations implements DatabaseOperation{
-    static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";  
-    static final String DB_URL = "jdbc:mysql:///order_system?useSSL=false&autoReconnect=true&characterEncoding=UTF-8&zeroDateTimeBehavior=CONVERT_TO_NULL";
- 
-    static final String USER = "****";
-    static final String PASS = "***";
     
-    static  Connection conn = null;
+	private static Connection conn;
+	static String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";  
+    static String DB_URL = "jdbc:mysql://***/order_system?useSSL=false&autoReconnect=true&characterEncoding=UTF-8&zeroDateTimeBehavior=CONVERT_TO_NULL";
+ 
+    static String USER = "";
+    static String PASS = "";
+    static  {
+    	
+        
+        
+    	try {
+    		conn = DriverManager.getConnection(DB_URL,USER,PASS);
+    	}
+    	
+    	catch(SQLException e) {
+    		
+    	}
+    	
+    }
     static  Statement stmt = null;
     
     
 	public Boolean customerRegister(int kind, String custID, String custName,Boolean registered, Boolean payroll, String custMail, String password, String phoneNumber) throws SQLException{
 		PreparedStatement pstmt = null;
 		Connection conn = null;
-		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		//conn =  DriverManager.getConnection(DB_URL,USER,PASS);
 		String sql =  "insert into  Customer values(?,?,?,?,?,?,?,?)";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setInt(1, kind);
@@ -50,8 +63,8 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	//修改注册状态
 	public Boolean setRegistered(String custID, Boolean status) throws SQLException{
 		PreparedStatement pstmt = null;
-		Connection conn = null;
-		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		//Connection conn = null;
+		//conn =  DriverManager.getConnection(DB_URL,USER,PASS);
 		String sql = "update Customer set registered = ? where cust_id = ?";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setBoolean(1, status);
@@ -69,8 +82,8 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	//修改工资支付状态
 	public Boolean setPayroll(String custID, Boolean status) throws SQLException{
 		PreparedStatement pstmt = null;
-		Connection conn = null;
-		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		//Connection conn = null;
+		//conn =  DriverManager.getConnection(DB_URL,USER,PASS);
 		String sql = "update Customer set cust_payroll = ? where cust_id = ?";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setBoolean(1, status);
@@ -88,8 +101,8 @@ public class impleDatabaseOperations implements DatabaseOperation{
 //修改邮箱
 	public Boolean setMail(String custID, String mail) throws SQLException{
 		PreparedStatement pstmt = null;
-		Connection conn = null;
-		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		//Connection conn = null;
+		//conn =  DriverManager.getConnection(DB_URL,USER,PASS);
 		String sql = "update Customer set cust_mail = ? where cust_id = ?";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, mail);
@@ -106,8 +119,8 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	
 	public Boolean setPassword(String custID, String password) throws SQLException{
 		PreparedStatement pstmt = null;
-		Connection conn = null;
-		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		//Connection conn = null;
+		//conn =  DriverManager.getConnection(DB_URL,USER,PASS);
 		String sql = "update Customer set cust_password = ? where cust_id = ?";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, password);
@@ -124,8 +137,8 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	
 	public Boolean setPhonenumber(String custID, String phonenumber) throws SQLException{
 		PreparedStatement pstmt = null;
-		Connection conn = null;
-		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		//Connection conn = null;
+		//conn =  DriverManager.getConnection(DB_URL,USER,PASS);
 		String sql = "update Customer set cust_phonenumber = ? where cust_id = ?";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, phonenumber);
@@ -141,10 +154,10 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	}
 	public int getKind(String custID) throws SQLException{
 		PreparedStatement pstmt = null;
-		Connection conn = null;
+		//Connection conn = null;
 		ResultSet rs =null;
 		Integer kind = null;
-		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		//conn =  DriverManager.getConnection(DB_URL,USER,PASS);
 		String sql = "select cust_kind from Customer where cust_id = ?";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, custID);
@@ -157,10 +170,10 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	}
 	public String getcustName(String custID) throws SQLException{
 		PreparedStatement pstmt = null;
-		Connection conn = null;
+		//Connection conn = null;
 		ResultSet rs =null;
 		String custName = null;
-		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		//conn =  DriverManager.getConnection(DB_URL,USER,PASS);
 		String sql = "select cust_name from Customer where cust_id = ?";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, custID);
@@ -174,10 +187,10 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	
 	public Boolean getRegistered(String custID) throws SQLException{
 		PreparedStatement pstmt = null;
-		Connection conn = null;
+		//Connection conn = null;
 		ResultSet rs =null;
 		Boolean registered = null;
-		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		//conn =  DriverManager.getConnection(DB_URL,USER,PASS);
 		String sql = "select registered  from Customer where cust_id = ?";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, custID);
@@ -191,10 +204,10 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	
 	public Boolean getPayroll(String custID) throws SQLException{
 		PreparedStatement pstmt = null;
-		Connection conn = null;
+		//Connection conn = null;
 		ResultSet rs =null;
 		Boolean payroll = null;
-		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		//conn =  DriverManager.getConnection(DB_URL,USER,PASS);
 		String sql = "select cust_payroll  from Customer where cust_id = ?";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, custID);
@@ -208,10 +221,10 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	
 	public String getMail(String custID) throws SQLException{
 		PreparedStatement pstmt = null;
-		Connection conn = null;
+		//Connection conn = null;
 		ResultSet rs =null;
 		String Mail = null;
-		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		//conn =  DriverManager.getConnection(DB_URL,USER,PASS);
 		String sql = "select cust_mail from Customer where cust_id = ?";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, custID);
@@ -224,10 +237,10 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	}
 	public String getPhonenumber(String custID) throws SQLException{
 		PreparedStatement pstmt = null;
-		Connection conn = null;
+		//Connection conn = null;
 		ResultSet rs =null;
 		String  Phonenumber = null;
-		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		//conn =  DriverManager.getConnection(DB_URL,USER,PASS);
 		String sql = "select cust_phonenumber from Customer where cust_id = ?";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, custID);
@@ -241,10 +254,10 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	
 	public String getPassword(String custID) throws SQLException{
 		PreparedStatement pstmt = null;
-		Connection conn = null;
+		//Connection conn = null;
 		ResultSet rs =null;
 		String  Password = null;
-		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		//conn =  DriverManager.getConnection(DB_URL,USER,PASS);
 		String sql = "select cust_password from Customer where cust_id = ?";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, custID);
@@ -258,8 +271,8 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	
 	public Boolean menuInsert(String dishID, String dishName, double dishPrice, double bargainPrice, Boolean isBargain) throws SQLException{
 		PreparedStatement pstmt = null;
-		Connection conn = null;
-		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		//Connection conn = null;
+		//conn =  DriverManager.getConnection(DB_URL,USER,PASS);
 		String sql =  "insert into  Menu values(?,?,?,?,?)";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, dishID);
@@ -279,8 +292,8 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	
 	public Boolean setName(String dishID, String dishName) throws SQLException{
 		PreparedStatement pstmt = null;
-		Connection conn = null;
-		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		//Connection conn = null;
+		//conn =  DriverManager.getConnection(DB_URL,USER,PASS);
 		String sql = "update Menu set dish_name = ? where dish_id = ?";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, dishName);
@@ -297,8 +310,8 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	
 	public Boolean setPrice(String dishID, double dishPrice) throws SQLException{
 		PreparedStatement pstmt = null;
-		Connection conn = null;
-		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		//Connection conn = null;
+		//conn =  DriverManager.getConnection(DB_URL,USER,PASS);
 		String sql = "update Menu set dish_price = ? where dish_id = ?";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setDouble(1, dishPrice);
@@ -315,8 +328,8 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	
 	public Boolean setBargainPrice(String dishID, double bargainPrice) throws SQLException{
 		PreparedStatement pstmt = null;
-		Connection conn = null;
-		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		//Connection conn = null;
+		//conn =  DriverManager.getConnection(DB_URL,USER,PASS);
 		String sql = "update Menu set  dish_bargain_price = ? where dish_id = ?";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setDouble(1, bargainPrice);
@@ -333,8 +346,8 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	
 	public Boolean setIsBargain(String dishID, Boolean isBargain) throws SQLException{
 		PreparedStatement pstmt = null;
-		Connection conn = null;
-		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		//Connection conn = null;
+		//conn =  DriverManager.getConnection(DB_URL,USER,PASS);
 		String sql = "update Menu set  Isbargain = ? where dish_id = ?";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setBoolean(1, isBargain);
@@ -351,8 +364,8 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	
 	public Boolean deleteDish(String dishID) throws SQLException{
 		PreparedStatement pstmt = null;
-		Connection conn = null;
-		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		//Connection conn = null;
+		//conn =  DriverManager.getConnection(DB_URL,USER,PASS);
 		String sql = "delete from Menu where dish_id = ?";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, dishID);
@@ -368,10 +381,10 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	
 	public double getPrice(String dishID) throws SQLException{
 		PreparedStatement pstmt = null;
-		Connection conn = null;
+		//Connection conn = null;
 		ResultSet rs =null;
 		double Price = 0;
-		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		//conn =  DriverManager.getConnection(DB_URL,USER,PASS);
 		String sql = "select dish_price from Menu where dish_id = ?";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, dishID);
@@ -385,10 +398,10 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	
 	public String getDishName(String dishID) throws SQLException{
 		PreparedStatement pstmt = null;
-		Connection conn = null;
+		//Connection conn = null;
 		ResultSet rs =null;
 		String DishName = null;
-		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		//conn =  DriverManager.getConnection(DB_URL,USER,PASS);
 		String sql = "select dish_name from Menu where dish_id = ?";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, dishID);
@@ -401,27 +414,27 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	}
 	public Boolean getIsBargain(String dishID) throws SQLException{
 		PreparedStatement pstmt = null;
-		Connection conn = null;
+		//Connection conn = null;
 		ResultSet rs =null;
 		Boolean IsBargain = false;
-		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		//conn =  DriverManager.getConnection(DB_URL,USER,PASS);
 		String sql = "select IsBargain from Menu where dish_id = ?";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, dishID);
 		rs = pstmt.executeQuery();
 		while(rs.next())
 		{
-			IsBargain = rs.getBoolean(1);
+			IsBargain = rs.getBoolean("IsBargain");
 		}
 		return IsBargain;
 	}
 	
 	public double getBargainPrice(String dishID) throws SQLException{
 		PreparedStatement pstmt = null;
-		Connection conn = null;
+		//Connection conn = null;
 		ResultSet rs =null;
 		double BargainPrice = 0;
-		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		//conn =  DriverManager.getConnection(DB_URL,USER,PASS);
 		String sql = "select dish_bargain_price from Menu where dish_id = ?";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, dishID);
@@ -435,10 +448,10 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	
 	public ArrayList<Menu> getMenu() throws SQLException{
 		PreparedStatement pstmt = null;
-		Connection conn = null;
+		//Connection conn = null;
 		ResultSet rs =null;
 		ArrayList<Menu> Menu = new ArrayList<Menu>();
-		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		//conn =  DriverManager.getConnection(DB_URL,USER,PASS);
 		String sql = "select * from Menu";
 		pstmt = conn.prepareStatement(sql);
 		rs = pstmt.executeQuery();
@@ -449,14 +462,15 @@ public class impleDatabaseOperations implements DatabaseOperation{
 			menu.setDishName(rs.getString(2));
 			menu.setPrice(rs.getDouble(3));
 			menu.setBargainPrice(rs.getDouble(4));
+			menu.setIsBargain(rs.getBoolean(5));
 			Menu.add(menu);
 		}
 		return Menu;
 	}
 	public Boolean addressInsert(String custID, String address) throws SQLException{
 		PreparedStatement pstmt = null;
-		Connection conn = null;
-		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		//Connection conn = null;
+		//conn =  DriverManager.getConnection(DB_URL,USER,PASS);
 		String sql =  "insert into CustomerAddress values(?,?)";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, custID);
@@ -472,8 +486,8 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	}
 	public Boolean addressDelete(String custID, String address) throws SQLException{
 		PreparedStatement pstmt = null;
-		Connection conn = null;
-		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		//Connection conn = null;
+		//conn =  DriverManager.getConnection(DB_URL,USER,PASS);
 		String sql = "delete from CustomerAddress where cust_id = ? and cust_address = ?";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, custID);
@@ -490,10 +504,10 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	
 	public ArrayList<String> getAddress(String custID) throws SQLException{
 		PreparedStatement pstmt = null;
-		Connection conn = null;
+		//Connection conn = null;
 		ResultSet rs =null;
 		ArrayList<String> Address = new ArrayList<String>();
-		conn =  DriverManager.getConnection(DB_URL,USER,PASS);
+		//conn =  DriverManager.getConnection(DB_URL,USER,PASS);
 		String sql = "select cust_address from CustomerAddress where cust_id = ?" ;
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, custID);
@@ -512,7 +526,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	PreparedStatement pstmt;
     	
     	try {
-    		conn = DriverManager.getConnection(DB_URL,USER,PASS);
+    		//conn = DriverManager.getConnection(DB_URL,USER,PASS);
     		pstmt = (PreparedStatement) conn.prepareStatement(sql);
     		pstmt.setString(1, orderID);
     		pstmt.setString(2, dishID);
@@ -521,7 +535,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     		
     		pstmt.executeUpdate();
     		pstmt.close();
-    		conn.close();
+    		//conn.close();
     	}
     	
     	catch(SQLException e){
@@ -535,7 +549,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 		String sql = "delete from OrderMenu where order_id=? and dish_id=?";
 	    PreparedStatement pstmt;
 	    try {
-	    	conn = DriverManager.getConnection(DB_URL,USER,PASS);
+	    	//conn = DriverManager.getConnection(DB_URL,USER,PASS);
     		pstmt = (PreparedStatement) conn.prepareStatement(sql);
     		pstmt.setString(1, orderID);
     		pstmt.setString(2, dishID);
@@ -543,7 +557,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     		
     		pstmt.executeUpdate();
     		pstmt.close();
-    		conn.close();
+    		//conn.close();
 	    } 
 	    catch(SQLException e){
     		throw e;
@@ -559,7 +573,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	PreparedStatement pstmt;
     	
     	try {
-    		conn = DriverManager.getConnection(DB_URL,USER,PASS);
+    		//conn = DriverManager.getConnection(DB_URL,USER,PASS);
     		pstmt = (PreparedStatement) conn.prepareStatement(sql);
     		pstmt.setString(1, orderID);
     		
@@ -576,7 +590,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     		
     		
     		pstmt.close();
-    		conn.close();
+    		//conn.close();
     	}
     	
     	catch(SQLException e){
@@ -593,7 +607,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	    PreparedStatement pstmt;
 	    
 	    try {
-	    	conn = DriverManager.getConnection(DB_URL,USER,PASS);
+	    	//conn = DriverManager.getConnection(DB_URL,USER,PASS);
 	        pstmt = (PreparedStatement) conn.prepareStatement(sql);
 	        
 	        pstmt.setInt(1, number);
@@ -602,7 +616,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	        
 	        pstmt.executeUpdate();
 	        pstmt.close();
-	        conn.close();
+	        //conn.close();
 	    } 
 	    
 	    catch(SQLException e){
@@ -621,7 +635,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	PreparedStatement pstmt;
     	
     	try {
-    		conn = DriverManager.getConnection(DB_URL,USER,PASS);
+    		//conn = DriverManager.getConnection(DB_URL,USER,PASS);
     		pstmt = (PreparedStatement) conn.prepareStatement(sql);
     		pstmt.setString(1, orderID);
     		pstmt.setTimestamp(2, payTimeStamp);
@@ -630,7 +644,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     		
     		pstmt.executeUpdate();
     		pstmt.close();
-    		conn.close();
+    		//conn.close();
     	}
     	
     	catch(SQLException e){
@@ -647,7 +661,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	Date payTime = new Date();
   
     	try {
-    		conn = DriverManager.getConnection(DB_URL,USER,PASS);
+    		//conn = DriverManager.getConnection(DB_URL,USER,PASS);
     		pstmt = (PreparedStatement) conn.prepareStatement(sql);
     		pstmt.setString(1, orderID);
     		
@@ -659,7 +673,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     		
     		
     		pstmt.close();
-    		conn.close();
+    		//conn.close();
     	}
     	
     	catch(SQLException e){
@@ -676,7 +690,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	String payment = null;
     	
     	try {
-    		conn = DriverManager.getConnection(DB_URL,USER,PASS);
+    		//conn = DriverManager.getConnection(DB_URL,USER,PASS);
     		pstmt = (PreparedStatement) conn.prepareStatement(sql);
     		pstmt.setString(1, orderID);
     		
@@ -688,7 +702,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     		
     		
     		pstmt.close();
-    		conn.close();
+    		//conn.close();
     	}
     	
     	catch(SQLException e){
@@ -707,7 +721,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	Pay pay = null;
     	
     	try {
-    		conn = DriverManager.getConnection(DB_URL,USER,PASS);
+    		//conn = DriverManager.getConnection(DB_URL,USER,PASS);
     		pstmt = (PreparedStatement) conn.prepareStatement(sql);
     		pstmt.setString(1, orderID);
     		
@@ -723,7 +737,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     		
     		
     		pstmt.close();
-    		conn.close();
+    		//conn.close();
     	}
     	
     	catch(SQLException e){
@@ -745,7 +759,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	PreparedStatement pstmt;
     	
     	try {
-    		conn = DriverManager.getConnection(DB_URL,USER,PASS);
+    		//conn = DriverManager.getConnection(DB_URL,USER,PASS);
     		pstmt = (PreparedStatement) conn.prepareStatement(sql);
     		pstmt.setString(1, orderID);
     		pstmt.setString(2, Status);
@@ -756,7 +770,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     		
     		pstmt.executeUpdate();
     		pstmt.close();
-    		conn.close();
+    		//conn.close();
     	}
     	
     	catch(SQLException e){
@@ -773,7 +787,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	    PreparedStatement pstmt;
 	    
 	    try {
-	    	conn = DriverManager.getConnection(DB_URL,USER,PASS);
+	    	//conn = DriverManager.getConnection(DB_URL,USER,PASS);
 	        pstmt = (PreparedStatement) conn.prepareStatement(sql);
 	        
 	        pstmt.setString(1, Status);
@@ -781,7 +795,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	        
 	        pstmt.executeUpdate();
 	        pstmt.close();
-	        conn.close();
+	        //conn.close();
 	    } 
 	    
 	    catch(SQLException e){
@@ -797,7 +811,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 		    PreparedStatement pstmt;
 		    
 		    try {
-		    	conn = DriverManager.getConnection(DB_URL,USER,PASS);
+		    	//conn = DriverManager.getConnection(DB_URL,USER,PASS);
 		        pstmt = (PreparedStatement) conn.prepareStatement(sql);
 		        
 		        pstmt.setInt(1, timeID);
@@ -805,7 +819,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 		        
 		        pstmt.executeUpdate();
 		        pstmt.close();
-		        conn.close();
+		        //conn.close();
 		    } 
 		    
 		    catch(SQLException e){
@@ -823,7 +837,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 		Timestamp startTimeStamp = new Timestamp(startTime.getTime());
 		
 		try {
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			//conn = DriverManager.getConnection(DB_URL,USER,PASS);
 		    pstmt = (PreparedStatement) conn.prepareStatement(sql);
 		    
 		    pstmt.setTimestamp(1, startTimeStamp);
@@ -831,7 +845,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 		    
 		    pstmt.executeUpdate();
 		    pstmt.close();
-		    conn.close();
+		    //conn.close();
 		} 
 		
 		catch(SQLException e){
@@ -849,7 +863,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 		Timestamp EndTimeStamp = new Timestamp(EndTime.getTime());
 		
 		try {
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			//conn = DriverManager.getConnection(DB_URL,USER,PASS);
 		    pstmt = (PreparedStatement) conn.prepareStatement(sql);
 		    
 		    pstmt.setTimestamp(1, EndTimeStamp);
@@ -857,7 +871,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 		    
 		    pstmt.executeUpdate();
 		    pstmt.close();
-		    conn.close();
+		    //conn.close();
 		} 
 		
 		catch(SQLException e){
@@ -881,7 +895,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	
     	
     	try {
-    		conn = DriverManager.getConnection(DB_URL,USER,PASS);
+    		//conn = DriverManager.getConnection(DB_URL,USER,PASS);
     		pstmt = (PreparedStatement) conn.prepareStatement(sql);
     		pstmt.setString(1, orderID);
     		
@@ -899,7 +913,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     		
     		
     		pstmt.close();
-    		conn.close();
+    		//conn.close();
     	}
     	
     	catch(SQLException e){
@@ -918,7 +932,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	MealTime reMealTime = null;
     	
     	try {
-    		conn = DriverManager.getConnection(DB_URL,USER,PASS);
+    		//conn = DriverManager.getConnection(DB_URL,USER,PASS);
     		pstmt = (PreparedStatement) conn.prepareStatement(sql);
     		pstmt.setInt(1, timeID);
     		
@@ -936,7 +950,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     		
     		
     		pstmt.close();
-    		conn.close();
+    		//conn.close();
     	}
     	
     	catch(SQLException e){
@@ -955,7 +969,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	PreparedStatement pstmt;
     	
     	try {
-    		conn = DriverManager.getConnection(DB_URL,USER,PASS);
+    		//conn = DriverManager.getConnection(DB_URL,USER,PASS);
     		pstmt = (PreparedStatement) conn.prepareStatement(sql);
     		pstmt.setString(1, delID);
     		pstmt.setString(2, delName);
@@ -965,7 +979,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     		
     		pstmt.executeUpdate();
     		pstmt.close();
-    		conn.close();
+    		//conn.close();
     	}
     	
     	catch(SQLException e){
@@ -980,14 +994,14 @@ public class impleDatabaseOperations implements DatabaseOperation{
 	    String sql = "delete from Delivery where del_id=? ";
 	    PreparedStatement pstmt;
 	    try {
-	    	conn = DriverManager.getConnection(DB_URL,USER,PASS);
+	    	//conn = DriverManager.getConnection(DB_URL,USER,PASS);
     		pstmt = (PreparedStatement) conn.prepareStatement(sql);
     		pstmt.setString(1, delID);
  
     		
     		pstmt.executeUpdate();
     		pstmt.close();
-    		conn.close();
+    		//conn.close();
 	    } 
 	    catch(SQLException e){
     		throw e;
@@ -1005,7 +1019,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	Delivery  reDelivery = null; 
     	
     	try {
-    		conn = DriverManager.getConnection(DB_URL,USER,PASS);
+    		//conn = DriverManager.getConnection(DB_URL,USER,PASS);
     		pstmt = (PreparedStatement) conn.prepareStatement(sql);
     		pstmt.setString(1, delID);
     		
@@ -1025,7 +1039,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     		
     		
     		pstmt.close();
-    		conn.close();
+    		//conn.close();
     	}
     	
     	catch(SQLException e){
@@ -1048,7 +1062,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	Delivery  reDelivery = null; 
     	
     	try {
-    		conn = DriverManager.getConnection(DB_URL,USER,PASS);
+    		//conn = DriverManager.getConnection(DB_URL,USER,PASS);
     		pstmt = (PreparedStatement) conn.prepareStatement(sql);
     		pstmt.setInt(1, timeID);
     		
@@ -1068,7 +1082,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     		
     		
     		pstmt.close();
-    		conn.close();
+    		//conn.close();
     	}
     	
     	catch(SQLException e) {
@@ -1087,7 +1101,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 		
 		
 		try {
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			//conn = DriverManager.getConnection(DB_URL,USER,PASS);
 		    pstmt = (PreparedStatement) conn.prepareStatement(sql);
 		    
 		    pstmt.setString(1, phoneNumber);
@@ -1095,7 +1109,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 		    
 		    pstmt.executeUpdate();
 		    pstmt.close();
-		    conn.close();
+		   // conn.close();
 		} 
 		
 		catch(SQLException e){
@@ -1114,7 +1128,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 		
 		
 		try {
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			//conn = DriverManager.getConnection(DB_URL,USER,PASS);
 		    pstmt = (PreparedStatement) conn.prepareStatement(sql);
 		    
 		    pstmt.setInt(1, timeID);
@@ -1122,7 +1136,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 		    
 		    pstmt.executeUpdate();
 		    pstmt.close();
-		    conn.close();
+		    //conn.close();
 		} 
 		
 		catch(SQLException e){
@@ -1141,7 +1155,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	PreparedStatement pstmt;
     	
     	try {
-    		conn = DriverManager.getConnection(DB_URL,USER,PASS);
+    		//conn = DriverManager.getConnection(DB_URL,USER,PASS);
     		pstmt = (PreparedStatement) conn.prepareStatement(sql);
     		pstmt.setString(1, orderID);
     		pstmt.setString(2, custID);
@@ -1154,7 +1168,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     		
     		pstmt.executeUpdate();
     		pstmt.close();
-    		conn.close();
+    		//conn.close();
     	}
     	
     	catch(SQLException e){
@@ -1170,7 +1184,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	String deliveryID = null;
     	
     	try {
-    		conn = DriverManager.getConnection(DB_URL,USER,PASS);
+    		//conn = DriverManager.getConnection(DB_URL,USER,PASS);
     		pstmt = (PreparedStatement) conn.prepareStatement(sql);
     		pstmt.setString(1, orderID);
     		
@@ -1182,7 +1196,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     		
     		
     		pstmt.close();
-    		conn.close();
+    		//conn.close();
     	}
     	
     	catch(SQLException e){
@@ -1199,7 +1213,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	double totalPrice = 0;
     	
     	try {
-    		conn = DriverManager.getConnection(DB_URL,USER,PASS);
+    		//conn = DriverManager.getConnection(DB_URL,USER,PASS);
     		pstmt = (PreparedStatement) conn.prepareStatement(sql);
     		pstmt.setString(1, orderID);
     		
@@ -1211,7 +1225,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     		
     		
     		pstmt.close();
-    		conn.close();
+    		//conn.close();
     	}
     	
     	catch(SQLException e){
@@ -1228,7 +1242,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	Date startTime = null;
     	
     	try {
-    		conn = DriverManager.getConnection(DB_URL,USER,PASS);
+    		//conn = DriverManager.getConnection(DB_URL,USER,PASS);
     		pstmt = (PreparedStatement) conn.prepareStatement(sql);
     		pstmt.setString(1, orderID);
     		
@@ -1240,7 +1254,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     		
     		
     		pstmt.close();
-    		conn.close();
+    		//conn.close();
     	}
     	
     	catch(SQLException e){
@@ -1257,7 +1271,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	String remark = null;
     	
     	try {
-    		conn = DriverManager.getConnection(DB_URL,USER,PASS);
+    		//conn = DriverManager.getConnection(DB_URL,USER,PASS);
     		pstmt = (PreparedStatement) conn.prepareStatement(sql);
     		pstmt.setString(1, orderID);
     		
@@ -1269,7 +1283,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     		
     		
     		pstmt.close();
-    		conn.close();
+    		//conn.close();
     	}
     	
     	catch(SQLException e){
@@ -1286,7 +1300,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	Boolean paid = false;
     	
     	try {
-    		conn = DriverManager.getConnection(DB_URL,USER,PASS);
+    		//conn = DriverManager.getConnection(DB_URL,USER,PASS);
     		pstmt = (PreparedStatement) conn.prepareStatement(sql);
     		pstmt.setString(1, orderID);
     		
@@ -1298,7 +1312,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     		
     		
     		pstmt.close();
-    		conn.close();
+    		//conn.close();
     	}
     	
     	catch(SQLException e){
@@ -1315,7 +1329,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 		
 		
 		try {
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			//conn = DriverManager.getConnection(DB_URL,USER,PASS);
 		    pstmt = (PreparedStatement) conn.prepareStatement(sql);
 		    
 		    pstmt.setDouble(1, totalPrice);
@@ -1323,7 +1337,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 		    
 		    pstmt.executeUpdate();
 		    pstmt.close();
-		    conn.close();
+		    //conn.close();
 		} 
 		
 		catch(SQLException e){
@@ -1340,7 +1354,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 		
 		
 		try {
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			//conn = DriverManager.getConnection(DB_URL,USER,PASS);
 		    pstmt = (PreparedStatement) conn.prepareStatement(sql);
 		    
 		    pstmt.setString(1, remark);
@@ -1348,7 +1362,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 		    
 		    pstmt.executeUpdate();
 		    pstmt.close();
-		    conn.close();
+		    //conn.close();
 		} 
 		
 		catch(SQLException e){
@@ -1366,7 +1380,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 		
 		
 		try {
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
+			//conn = DriverManager.getConnection(DB_URL,USER,PASS);
 		    pstmt = (PreparedStatement) conn.prepareStatement(sql);
 		    
 		    pstmt.setBoolean(1, paid);
@@ -1374,7 +1388,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 		    
 		    pstmt.executeUpdate();
 		    pstmt.close();
-		    conn.close();
+		    //conn.close();
 		} 
 		
 		catch(SQLException e){
@@ -1391,7 +1405,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     	PreparedStatement pstmt;
     	
     	try {
-    		conn = DriverManager.getConnection(DB_URL,USER,PASS);
+    		//conn = DriverManager.getConnection(DB_URL,USER,PASS);
     		pstmt = (PreparedStatement) conn.prepareStatement(sql);
     		pstmt.setString(1, custID);
     		
@@ -1416,7 +1430,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     		
     		
     		pstmt.close();
-    		conn.close();
+    		//conn.close();
     	}
     	
     	catch(SQLException e){

@@ -8,6 +8,9 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.SwingConstants;
+
+import myCafeteriaOrderingSystem.impleDatabaseOperations;
+
 import java.awt.Font;
 import java.awt.Toolkit;
 
@@ -52,6 +55,7 @@ public class Login {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		impleDatabaseOperations login = new impleDatabaseOperations();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 682, 466);
 		frame.setLocationRelativeTo(null);
@@ -104,7 +108,19 @@ public class Login {
 					
 					if(login.LoginAuth()) {
 						if(login.getUKind() == 1) {
-							//MainMenu.main(null);
+							MainMenu.main(null);
+						}
+						
+						else if(login.getUKind() == 2) {
+							DeliveryView.main(null);
+						}
+						
+						else if(login.getUKind() == 3) {
+							WorkersView.main(null);
+						}
+						
+						else if(login.getUKind() == 4) {
+							MenuManagerView.main(null);
 						}
 						
 						
