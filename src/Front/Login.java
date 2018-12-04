@@ -108,15 +108,16 @@ public class Login {
 					
 					if(login.LoginAuth()) {
 						if(login.getUKind() == 1) {
-							MainMenu.main(null);
+							//CustomerView.main(UID);
+							new CustomerView();
 						}
 						
 						else if(login.getUKind() == 2) {
-							DeliveryView.main(null);
+							//DeliveryView.main(UID);
 						}
 						
 						else if(login.getUKind() == 3) {
-							WorkersView.main(null);
+							//WorkersView.main(UID);
 						}
 						
 						else if(login.getUKind() == 4) {
@@ -124,7 +125,7 @@ public class Login {
 						}
 						
 						
-						
+						frame.dispose();
 					}
 				} 
 				

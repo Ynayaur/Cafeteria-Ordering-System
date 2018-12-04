@@ -142,30 +142,38 @@ public class MainMenu {
 			
 			Mlist = menuGet.getMenu();
 			
-			for(int i = 0; i < Mlist.size(); i++) {
-				System.out.println("133");
-				MenuPanel Mpanel = new MenuPanel((Menu)Mlist.get(i), i+1);
-				//scrollPane.add(Mpanel);
+			for(int i = 0, j = 0; i < Mlist.size(); i++ , j++) {
+				if(((Menu)Mlist.get(i)).getDeleted()) {
+					continue;
+				}
 				
-				System.out.println("133");
+				else {
 				
-				panel.add(Mpanel);
-				
-				
-				menupanelList.add(Mpanel);
+					
+					//System.out.println("133");
+					MenuPanel Mpanel = new MenuPanel((Menu)Mlist.get(i), j+1);
+					//scrollPane.add(Mpanel);
+					
+					System.out.println("133");
+					
+					panel.add(Mpanel);
+					
+					
+					menupanelList.add(Mpanel);
+				}
 				
 			}
 			
 			
 			
-			//if((Mlist.size() + 1) <= 7) {
-				for(int i = Mlist.size(); i % 20 != 0; i++) {
+			if((Mlist.size() + 1) <= 9) {
+				for(int i = Mlist.size(); i % 10 != 0; i++) {
 					MenuPanel Mpanel = new MenuPanel(i+1);
 					//scrollPane.add(Mpanel);
 					
 					panel.add(Mpanel);
 				}
-			//}
+			}
 				
 				
 			
@@ -245,7 +253,7 @@ public class MainMenu {
 		frame.getContentPane().add(scrollPane);
 		
 		
-		OrderSubmitPanel ordersubmitpanel = new OrderSubmitPanel();
+		OrderSubmitPanel ordersubmitpanel = new OrderSubmitPanel(frame);
 		
 		frame.getContentPane().add(ordersubmitpanel);
 		

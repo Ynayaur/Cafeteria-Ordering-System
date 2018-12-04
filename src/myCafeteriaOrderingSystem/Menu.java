@@ -6,6 +6,7 @@ public class Menu {
 	double price;
 	double bargainPrice;
 	Boolean isBargain;
+	Boolean deleted;
 
 	public Menu(){
 	}
@@ -30,6 +31,10 @@ public class Menu {
 		this.isBargain = isbargain;
 	}
 	
+	public void setDeleted(Boolean deleted){
+		this.deleted = deleted;
+	}
+	
 	public String getDishID(){
 		return this.dishID;
 	}
@@ -48,6 +53,10 @@ public class Menu {
 	
 	public Boolean getIsBargain(){
 		return this.isBargain;
+	}
+	
+	public Boolean getDeleted(){
+		return this.deleted;
 	}
 
 }

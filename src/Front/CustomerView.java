@@ -11,6 +11,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class CustomerView {
 
@@ -24,7 +26,7 @@ public class CustomerView {
 			public void run() {
 				try {
 					CustomerView window = new CustomerView();
-					window.frame.setVisible(true);
+					//window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -37,6 +39,7 @@ public class CustomerView {
 	 */
 	public CustomerView() {
 		initialize();
+		frame.setVisible(true);
 	}
 
 	/**
@@ -44,7 +47,8 @@ public class CustomerView {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 652, 435);
+		frame.setBounds(100, 100, 682, 466);
+		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
 		
@@ -71,6 +75,10 @@ public class CustomerView {
 		panel_2.setLayout(new GridLayout(1, 0, 0, 0));
 		
 		JButton button_1 = new JButton("\u67E5\u770B\u5386\u53F2\u8BA2\u5355");
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		button_1.setHorizontalAlignment(SwingConstants.CENTER);
 		button_1.setFont(new Font("华文楷体", Font.BOLD, 23));
 		panel_2.add(button_1);
@@ -80,6 +88,11 @@ public class CustomerView {
 		panel_3.setLayout(new GridLayout(1, 0, 0, 0));
 		
 		JButton button_2 = new JButton("\u8BA2\u9910");
+		button_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MainMenu.main(null);
+			}
+		});
 		button_2.setHorizontalAlignment(SwingConstants.CENTER);
 		button_2.setFont(new Font("华文楷体", Font.BOLD, 23));
 		panel_3.add(button_2);
@@ -87,6 +100,13 @@ public class CustomerView {
 		JPanel panel_4 = new JPanel();
 		frame.getContentPane().add(panel_4);
 		panel_4.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		JButton button_3 = new JButton("");
+		button_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		panel_4.add(button_3);
 		
 		
 	}

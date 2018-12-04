@@ -16,7 +16,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
     
 	private static Connection conn;
 	static String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";  
-    static String DB_URL = "jdbc:mysql://***/order_system?useSSL=false&autoReconnect=true&characterEncoding=UTF-8&zeroDateTimeBehavior=CONVERT_TO_NULL";
+    static String DB_URL = "jdbc:mysql://   /order_system?useSSL=false&autoReconnect=true&characterEncoding=UTF-8&zeroDateTimeBehavior=CONVERT_TO_NULL";
  
     static String USER = "";
     static String PASS = "";
@@ -273,13 +273,14 @@ public class impleDatabaseOperations implements DatabaseOperation{
 		PreparedStatement pstmt = null;
 		//Connection conn = null;
 		//conn =  DriverManager.getConnection(DB_URL,USER,PASS);
-		String sql =  "insert into  Menu values(?,?,?,?,?)";
+		String sql =  "insert into  Menu values(?,?,?,?,?,?)";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, dishID);
 		pstmt.setString(2, dishName);
 		pstmt.setDouble(3, dishPrice);
 		pstmt.setDouble(4, bargainPrice);
 		pstmt.setBoolean(5, isBargain);
+		pstmt.setBoolean(6, false);
 		Integer executeUpdate = pstmt.executeUpdate();
 		if(executeUpdate>0) {
 			System.out.println("插入成功！");
@@ -366,7 +367,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 		PreparedStatement pstmt = null;
 		//Connection conn = null;
 		//conn =  DriverManager.getConnection(DB_URL,USER,PASS);
-		String sql = "delete from Menu where dish_id = ?";
+		String sql = "update Menu set deleted = true where dish_id = ?";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, dishID);
 		Integer executeUpdate = pstmt.executeUpdate();
@@ -463,6 +464,7 @@ public class impleDatabaseOperations implements DatabaseOperation{
 			menu.setPrice(rs.getDouble(3));
 			menu.setBargainPrice(rs.getDouble(4));
 			menu.setIsBargain(rs.getBoolean(5));
+			menu.setDeleted(rs.getBoolean(5));
 			Menu.add(menu);
 		}
 		return Menu;

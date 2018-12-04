@@ -6,16 +6,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 public class OrderSubmitPanel extends JPanel {
+	static JFrame frame; 
 	static JLabel label_1;
 	static JLabel label_2;
-	public OrderSubmitPanel(){
+	public OrderSubmitPanel(JFrame f){
 		super();
 		set();
+		frame = f;
 		
 	}
 	
@@ -43,6 +46,7 @@ public class OrderSubmitPanel extends JPanel {
 		JButton btnNewButton = new JButton("\u9000\u51FA");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
 			}
 		});
 		add(btnNewButton);
